@@ -402,7 +402,7 @@ var device = null;
             } else {
                 // DFU
                 detachButton.disabled = true;
-                uploadButton.disabled = false;
+                // uploadButton.disabled = false;
                 downloadButton.disabled = false;
                 firmwareFileField.disabled = false;
             }
