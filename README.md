@@ -10,7 +10,7 @@ https://devanlai.github.io/webdfu/dfu-util/
 ### mbed-download
 A demo using WebUSB and the [mbed remote compilation API](https://developer.mbed.org/handbook/Compile-API) to build and flash boards in one step:
 
-https://wbnd.github.io/webdfu/mbed-download/
+https://daniel-maiorano.github.io/webdfu/dfu-util/
 
 ## Host-side implementation
 WebUSB is currently only supported by Chromium / Google Chrome.
