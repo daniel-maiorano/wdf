@@ -562,7 +562,7 @@ var device = null;
                 );
             }
         });
-*/
+
         uploadButton.addEventListener('click', async function(event) {
             event.preventDefault();
             event.stopPropagation();
@@ -603,7 +603,7 @@ var device = null;
 
             return false;
         });
-
+*/
         firmwareFileField.addEventListener("change", function() {
             firmwareFile = null;
             if (firmwareFileField.files.length > 0) {
