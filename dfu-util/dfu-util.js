@@ -396,14 +396,14 @@ var device = null;
             // Update buttons based on capabilities
             if (device.settings.alternate.interfaceProtocol == 0x01) {
                 // Runtime
-                detachButton.disabled = false;
-                uploadButton.disabled = true;
+                // detachButton.disabled = false;
+                // uploadButton.disabled = true;
                 downloadButton.disabled = true;
                 firmwareFileField.disabled = true;
             } else {
                 // DFU
-                detachButton.disabled = true;
-                uploadButton.disabled = false;
+                // detachButton.disabled = true;
+                // uploadButton.disabled = false;
                 downloadButton.disabled = false;
                 firmwareFileField.disabled = false;
             }
