@@ -75,6 +75,7 @@ var device = null;
             // Manually retrieve the interface name string descriptors
             let tempDevice = new dfu.Device(device_, interfaces[0]);
             await tempDevice.device_.open();
+            await tempDevice.device_.selectConfiguration(1);
             let mapping = await tempDevice.readInterfaceNames();
             await tempDevice.close();
 
@@ -218,7 +219,7 @@ var device = null;
 
     document.addEventListener('DOMContentLoaded', event => {
         let connectButton = document.querySelector("#connect");
-        // let detachButton = document.querySelector("#detach");
+        let detachButton = document.querySelector("#detach");
         let downloadButton = document.querySelector("#download");
         let uploadButton = document.querySelector("#upload");
         let statusDisplay = document.querySelector("#status");
@@ -285,7 +286,7 @@ var device = null;
             connectButton.textContent = "Connect";
             infoDisplay.textContent = "";
             dfuDisplay.textContent = "";
-            // detachButton.disabled = true;
+            detachButton.disabled = true;
             uploadButton.disabled = true;
             downloadButton.disabled = true;
             firmwareFileField.disabled = true;
@@ -368,7 +369,7 @@ var device = null;
                     }
                 }
             }
-            
+
             // Bind logging methods
             device.logDebug = logDebug;
             device.logInfo = logInfo;
@@ -395,14 +396,14 @@ var device = null;
             // Update buttons based on capabilities
             if (device.settings.alternate.interfaceProtocol == 0x01) {
                 // Runtime
-                // detachButton.disabled = false;
+                detachButton.disabled = false;
                 uploadButton.disabled = true;
                 downloadButton.disabled = true;
                 firmwareFileField.disabled = true;
             } else {
                 // DFU
-                // detachButton.disabled = true;
-                // uploadButton.disabled = false;
+                detachButton.disabled = true;
+                uploadButton.disabled = false;
                 downloadButton.disabled = false;
                 firmwareFileField.disabled = false;
             }
@@ -532,7 +533,7 @@ var device = null;
                 });
             }
         });
-/*
+
         detachButton.addEventListener('click', function() {
             if (device) {
                 device.detach().then(
@@ -561,8 +562,7 @@ var device = null;
                 );
             }
         });
-*/
-/*
+
         uploadButton.addEventListener('click', async function(event) {
             event.preventDefault();
             event.stopPropagation();
@@ -603,7 +603,7 @@ var device = null;
 
             return false;
         });
-*/
+
         firmwareFileField.addEventListener("change", function() {
             firmwareFile = null;
             if (firmwareFileField.files.length > 0) {
@@ -623,7 +623,7 @@ var device = null;
                 configForm.reportValidity();
                 return false;
             }
-            
+
             if (device && firmwareFile != null) {
                 setLogContext(downloadLog);
                 clearLog(downloadLog);
