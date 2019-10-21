@@ -219,9 +219,9 @@ var device = null;
 
     document.addEventListener('DOMContentLoaded', event => {
         let connectButton = document.querySelector("#connect");
-        let detachButton = document.querySelector("#detach");
+        // let detachButton = document.querySelector("#detach");
         let downloadButton = document.querySelector("#download");
-        let uploadButton = document.querySelector("#upload");
+        // let uploadButton = document.querySelector("#upload");
         let statusDisplay = document.querySelector("#status");
         let infoDisplay = document.querySelector("#usbInfo");
         let dfuDisplay = document.querySelector("#dfuInfo");
@@ -286,8 +286,8 @@ var device = null;
             connectButton.textContent = "Connect";
             infoDisplay.textContent = "";
             dfuDisplay.textContent = "";
-            detachButton.disabled = true;
-            uploadButton.disabled = true;
+            // detachButton.disabled = true;
+            // uploadButton.disabled = true;
             downloadButton.disabled = true;
             firmwareFileField.disabled = true;
         }
@@ -332,7 +332,7 @@ var device = null;
 
                 if (device.settings.alternate.interfaceProtocol == 0x02) {
                     if (!desc.CanUpload) {
-                        uploadButton.disabled = true;
+                        // uploadButton.disabled = true;
                         dfuseUploadSizeField.disabled = true;
                     }
                     if (!desc.CanDnload) {
@@ -533,7 +533,7 @@ var device = null;
                 });
             }
         });
-
+/*
         detachButton.addEventListener('click', function() {
             if (device) {
                 device.detach().then(
@@ -562,7 +562,7 @@ var device = null;
                 );
             }
         });
-
+*/
         uploadButton.addEventListener('click', async function(event) {
             event.preventDefault();
             event.stopPropagation();
