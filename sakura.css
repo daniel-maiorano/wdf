@@ -6,7 +6,7 @@
 /* Body */
 html {
   font-size: 62.5%;
-  font-family: serif; }
+  font-family: Tahoma; }
 
 body {
   font-size: 1.8rem;
@@ -25,7 +25,9 @@ body {
     font-size: 1.35rem; } }
 h1, h2, h3, h4, h5, h6 {
   line-height: 1.1;
+  /*
   font-family: Verdana, Geneva, sans-serif;
+  */
   font-weight: 700;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -119,6 +121,7 @@ input, textarea {
 textarea {
   width: 100%; }
 
+
 .button, button, input[type="submit"], input[type="reset"], input[type="button"] {
   display: inline-block;
   padding: 5px 10px;
@@ -157,4 +160,4 @@ textarea, select, input[type] {
 label, legend, fieldset {
   display: block;
   margin-bottom: .5rem;
-  font-weight: 600; }
+  font-weight: 100; }
