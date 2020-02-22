@@ -189,7 +189,7 @@ var dfuse = {};
         let bytesErased = 0;
         const bytesToErase = endAddr - addr;
         if (bytesToErase > 0) {
-            this.logProgress(bytesErased, bytesToErase);
+            this.logProgress("Erasing device memory: ",bytesErased, bytesToErase);
         }
 
         while (addr < endAddr) {
@@ -200,7 +200,7 @@ var dfuse = {};
                 // Skip over the non-erasable section
                 bytesErased = Math.min(bytesErased + segment.end - addr, bytesToErase);
                 addr = segment.end;
-                this.logProgress(bytesErased, bytesToErase);
+                this.logProgress("Erasing device memory: ",bytesErased, bytesToErase);
                 continue;
             }
             const sectorIndex = Math.floor((addr - segment.start)/segment.sectorSize);
@@ -209,7 +209,7 @@ var dfuse = {};
             await this.dfuseCommand(dfuse.ERASE_SECTOR, sectorAddr, 4);
             addr = sectorAddr + segment.sectorSize;
             bytesErased += segment.sectorSize;
-            this.logProgress(bytesErased, bytesToErase);
+            this.logProgress("Erasing device memory: ",bytesErased, bytesToErase);
         }
     };
 
@@ -217,22 +217,18 @@ var dfuse = {};
         if (!this.memoryInfo || ! this.memoryInfo.segments) {
             throw "No memory map available";
         }
-
-        this.logInfo("Erasing DFU device memory");
-        
+        this.logInfo("Starting device flash");
         let bytes_sent = 0;
         let expected_size = data.byteLength;
 
         let startAddress = this.startAddress;
         if (isNaN(startAddress)) {
             startAddress = this.memoryInfo.segments[0].start;
-            this.logWarning("Using inferred start address 0x" + startAddress.toString(16));
+            // this.logWarning("Using inferred start address 0x" + startAddress.toString(16));
         } else if (this.getSegment(startAddress) === null) {
             this.logError(`Start address 0x${startAddress.toString(16)} outside of memory map bounds`);
         }
         await this.erase(startAddress, expected_size);
-
-        this.logInfo("Copying data from browser to DFU device");
 
         let address = startAddress;
         while (bytes_sent < expected_size) {
@@ -259,32 +255,31 @@ var dfuse = {};
             this.logDebug("Wrote " + bytes_written + " bytes");
             bytes_sent += bytes_written;
 
-            this.logProgress(bytes_sent, expected_size);
+            this.logProgress("Flashing device memory: ",bytes_sent, expected_size);
         }
-        this.logInfo(`Wrote ${bytes_sent} bytes`);
 
-        this.logInfo("Manifesting new firmware");
+        this.logProgress("Manifesting new firmware",0,100);
         try {
             await this.dfuseCommand(dfuse.SET_ADDRESS, startAddress, 4);
             await this.download(new ArrayBuffer(), 0);
         } catch (error) {
             throw "Error during DfuSe manifestation: " + error;
         }
-
         try {
             await this.poll_until(state => (state == dfu.dfuMANIFEST));
+            this.logProgress("Manifesting new firmware",100,100);
         } catch (error) {
             this.logError(error);
         }
     }
-
+/*
     dfuse.Device.prototype.do_upload = async function(xfer_size, max_size) {
         let startAddress = this.startAddress;
         if (isNaN(startAddress)) {
             startAddress = this.memoryInfo.segments[0].start;
-            this.logWarning("Using inferred start address 0x" + startAddress.toString(16));
+            // this.logWarning("Using inferred start address 0x" + startAddress.toString(16));
         } else if (this.getSegment(startAddress) === null) {
-            this.logWarning(`Start address 0x${startAddress.toString(16)} outside of memory map bounds`);
+            // this.logWarning(`Start address 0x${startAddress.toString(16)} outside of memory map bounds`);
         }
 
         this.logInfo(`Reading up to 0x${max_size.toString(16)} bytes starting at 0x${startAddress.toString(16)}`);
@@ -299,4 +294,5 @@ var dfuse = {};
         // the block number - 2, and the SET_ADDRESS pointer.
         return await dfu.Device.prototype.do_upload.call(this, xfer_size, max_size, 2);
     }
+    */
 })();
