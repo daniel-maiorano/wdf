@@ -9,7 +9,7 @@ var styleOk = "background: #2c8898; color: #f9f9f9;";
 var styleWarn = "background: ligthyellow; color: #f9f9f9;";
 var styleErr = "background: #982c61; color: #f9f9f9;";
 var binFile = "./firmware-RTM-1.2.bin";
-var binFileDesc = "Firmware version 1.2.1 ready to flash";
+var binFileDesc = "Firmware version 1.2 ready to flash";
 
 (function() {
     'use strict';
